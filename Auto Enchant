@@ -1,0 +1,82 @@
+print(game.HttpService:JSONEncode(game:GetService("ReplicatedStorage").Modules.Net:FindFirstChild("RF/EnchantInvoke"):InvokeServer(unpack(args))))
+local module = loadstring(game:HttpGet("https://raw.githubusercontent.com/noguchihyuga/idk/refs/heads/main/module_bf.lua"))()
+local pp_ = CFrame.new(-15896.7461, 483.994446, 947.352356, 0.656605661, -5.26371871e-08, 0.754234076, -8.42458547e-09, 1, 7.71230333e-08, -0.754234076, -5.69935281e-08, 0.656605661)
+if module:getdis(pp_) > 10 then
+    repeat
+        wait()
+        module:topos(pp_)
+    until module:getdis(pp_) <= 10
+end
+local _ = getgenv()
+local a = _["config_"]
+local x = a["Enchant"]["Type"]
+local y = a["Item"]["Type"]
+local b = a["AllSword"]
+local c = a["Item"]["Next"]
+function ab(loaditem)
+    for i, v in next,  game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getInventory") do
+        if v.Type == a["Name"] and v.Name == loaditem then
+
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadItem", v.Name, {[1] = a["Name"]})
+            return true
+        end
+    end
+    return false
+end
+
+if b then
+    for xx, v in next, y do
+        for i = 1, (c or 10) do
+            local aa = game.Players.LocalPlayer.Backpack:FindFirstChild(v) or
+            game.Players.LocalPlayer.Character:FindFirstChild(v)
+            if aa then
+                local gg = game:GetService("ReplicatedStorage").Modules.Net:FindFirstChild("RF/EnchantInvoke")
+                :InvokeServer("Check", aa)
+                local f = false
+                for ii, vv in next, gg["Modifiers"] do
+                    for _3, _6 in next, x do
+                        if string.find(vv.Name:lower(), _6:lower()) then
+                            f = true
+                        end
+                    end
+                end
+                if f then
+                    break
+                end
+                print(game.HttpService:JSONEncode(game:GetService("ReplicatedStorage").Modules.Net:FindFirstChild("RF/EnchantInvoke"):InvokeServer(
+                "Enchant", aa, a["Enchant"]["Name"])))
+                print(i)
+            else
+                if not ab(v) then
+                    break
+                end
+            end
+        end
+    end
+else
+    for i = 1, (c or 10) do
+        local aa = game.Players.LocalPlayer.Backpack:FindFirstChild(y[1]) or
+        game.Players.LocalPlayer.Character:FindFirstChild(y[1])
+        if aa then
+            local gg = game:GetService("ReplicatedStorage").Modules.Net:FindFirstChild("RF/EnchantInvoke"):InvokeServer(
+            "Check", aa)
+            local f = false
+            for ii, vv in next, gg["Modifiers"] do
+                for _3, _6 in next, x do
+                        if string.find(vv.Name:lower(), _6:lower()) then
+                            f = true
+                        end
+                    end
+            end
+            if f then
+                break
+            end
+            print(game.HttpService:JSONEncode(game:GetService("ReplicatedStorage").Modules.Net:FindFirstChild("RF/EnchantInvoke"):InvokeServer("Enchant",
+                aa, a["Enchant"]["Name"])))
+        else
+            if not ab(y[1]) then
+                break
+            end
+        end
+    end
+end
